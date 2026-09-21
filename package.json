@@ -1,7 +1,11 @@
 {
   "name": "skills",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@9",
+  "bin": {
+    "skills": "bin/skills.js"
+  },
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check ."
