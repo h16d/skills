@@ -1,0 +1,27 @@
+{
+  "name": "project-name",
+  "private": true,
+  "packageManager": "pnpm@9",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc -b --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:e2e": "vitest run --project e2e",
+    "test:coverage": "vitest run --coverage",
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "eslint": "latest",
+    "prettier": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}
