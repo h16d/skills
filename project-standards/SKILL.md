@@ -20,26 +20,25 @@ TypeScript, pnpm, NestJS, TypeORM, PostgreSQL, Kavo (CRUD), Zod (validation), Re
 
 Only add a technology when the project actually requires it. No example business logic or unused dependencies.
 
-## Reference Files
+## When to Read What
 
-Load the relevant file(s) for the task at hand — don't load all of them for a small change.
+Load only the file(s) relevant to the current task — never load all of them for a small change.
 
-| File | Covers |
-|---|---|
-| [bootstrap.md](references/bootstrap.md) | New repo: init order, commit sequence, monorepo layout |
-| [backend.md](references/backend.md) | NestJS architecture, TypeORM, Kavo, Zod, DTOs, database, rate limiting |
-| [frontend.md](references/frontend.md) | React/Router, TypeScript, Prettier, ESLint, commitlint, Node.js versions |
-| [testing.md](references/testing.md) | Vitest, Testcontainers, e2e vs unit, validation commands |
-| [cicd.md](references/cicd.md) | Docker, GitHub Actions, Dependabot, release-please, GHCR + retention |
-| [existing.md](references/existing.md) | Applying these standards incrementally to a repo that already exists |
-| [checklist.md](references/checklist.md) | Full completion checklist + final reporting format |
+| Task involves...                                                            | Read                                               |
+| --------------------------------------------------------------------------- | -------------------------------------------------- |
+| New repo, init order, commit sequence, monorepo layout                      | [references/bootstrap.md](references/bootstrap.md) |
+| NestJS modules, TypeORM, Postgres, Kavo, Zod, DTOs, rate limiting           | [references/backend.md](references/backend.md)     |
+| React/Router, TypeScript config, Prettier, ESLint, commitlint, Node version | [references/frontend.md](references/frontend.md)   |
+| Writing/running tests, Testcontainers, pre-completion validation            | [references/testing.md](references/testing.md)     |
+| Docker, GitHub Actions, Dependabot, release-please, GHCR                    | [references/cicd.md](references/cicd.md)           |
+| A repo that already has code/history                                        | [references/existing.md](references/existing.md)   |
+| Confirming a bootstrap is actually done, final report format                | [references/checklist.md](references/checklist.md) |
 
-## Quick Rules (always apply, no file needed)
+## Templates & Scripts
 
-- Entities: singular names (`project.entity.ts`, not `projects.entity.ts`). UUIDv7 primary keys. Migrations only — never `synchronize: true` outside disposable local dev.
-- DTOs/schemas live beside their module (`project.dto.ts`, `project.schema.ts`), not in a `dto/` subfolder. Zod is the source of truth, not class-validator.
-- Rate limiting: in-memory by default, never Postgres; don't silently swap in Redis.
-- New repo bootstrap: incremental Conventional Commits, never one giant initial commit — see [bootstrap.md](references/bootstrap.md).
-- Existing repo: inspect first, never recreate Git, never overwrite working config — see [existing.md](references/existing.md).
+- `templates/base/` — starter config files (package.json, tsconfig.json, .prettierrc, commitlint.config.ts, .gitignore, dependabot.yml). Copy and adapt instead of generating from scratch.
+- `scripts/validate.sh` — runs the full pre-completion validation suite (typecheck, lint, format:check, test, test:e2e, build). Run it instead of re-deriving the command list.
 
-Before declaring any implementation complete, run: typecheck, lint, format:check, unit tests, e2e tests, build. Don't claim a command passed unless it actually ran — see [testing.md](references/testing.md) and [checklist.md](references/checklist.md).
+## Definition of Done
+
+Every rule lives in exactly one place — the table above, not this section, says where. Before declaring work complete, run `scripts/validate.sh` (or the equivalent commands in [references/testing.md](references/testing.md)) and fix failures. Never claim a command passed without having run it.

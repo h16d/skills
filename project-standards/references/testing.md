@@ -14,24 +14,7 @@ Any test needing infrastructure uses Testcontainers — PostgreSQL integration/e
 
 ## Validation Before Declaring Complete
 
-Run, in order, and fix failures before reporting completion — don't claim a command passed unless it actually ran successfully:
-
-1. Unit tests
-2. E2E tests
-3. Type checking
-4. Linting
-5. Formatting check
-6. Build
-
-```bash
-pnpm install
-pnpm typecheck
-pnpm lint
-pnpm format:check
-pnpm test
-pnpm test:e2e
-pnpm build
-```
+Run `../scripts/validate.sh` and fix failures before reporting completion — don't claim a command passed unless it actually ran successfully. The script runs, in order: install, typecheck, lint, format:check, test, test:e2e, build.
 
 If Docker is part of the project, also verify:
 

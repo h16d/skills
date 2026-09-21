@@ -20,7 +20,7 @@
 
 **Documentation:** README · `.env.example` · dev instructions · test instructions · Docker instructions
 
-**Final validation:** `pnpm install` · `pnpm typecheck` · `pnpm lint` · `pnpm format:check` · `pnpm test` · `pnpm test:e2e` · `pnpm build`
+**Final validation:** `../scripts/validate.sh` passes (see [testing.md](testing.md))
 
 ## Final Reporting
 
