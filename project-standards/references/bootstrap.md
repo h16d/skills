@@ -86,7 +86,7 @@ pnpm workspaces, `apps/api` + `apps/web`:
 │       └── src/
 │           ├── routes/
 │           └── main.tsx
-├── packages/
+├── packages/            # see pnpm-monorepo skill for when/how to use this
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml
