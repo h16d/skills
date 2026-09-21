@@ -1,0 +1,14 @@
+{
+  "name": "skills",
+  "private": true,
+  "packageManager": "pnpm@9",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "prettier": "latest"
+  }
+}
