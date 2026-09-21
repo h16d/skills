@@ -16,7 +16,7 @@ Personal defaults for full-stack TypeScript projects. Apply when bootstrapping a
 
 ## Default Stack
 
-TypeScript, pnpm, NestJS, TypeORM, PostgreSQL, Kavo (CRUD), Zod (validation), React, React Router, Vitest, Testcontainers, Prettier, ESLint, commitlint, Conventional Commits, GitHub Actions, Dependabot, release-please, Docker, GHCR.
+TypeScript, pnpm, NestJS, TypeORM, PostgreSQL, Kavo (CRUD), Zod (validation), Swagger (OpenAPI spec), Orval (generated frontend client), React, React Router, Vitest, Testcontainers, Prettier, ESLint, commitlint, Conventional Commits, GitHub Actions, Dependabot, release-please, Docker, GHCR.
 
 Only add a technology when the project actually requires it. No example business logic or unused dependencies.
 
@@ -24,19 +24,20 @@ Only add a technology when the project actually requires it. No example business
 
 Load only the file(s) relevant to the current task — never load all of them for a small change.
 
-| Task involves...                                                            | Read                                               |
-| --------------------------------------------------------------------------- | -------------------------------------------------- |
-| New repo, init order, commit sequence, monorepo layout                      | [references/bootstrap.md](references/bootstrap.md) |
-| NestJS modules, TypeORM, Postgres, Kavo, Zod, DTOs, rate limiting           | [references/backend.md](references/backend.md)     |
-| React/Router, TypeScript config, Prettier, ESLint, commitlint, Node version | [references/frontend.md](references/frontend.md)   |
-| Writing/running tests, Testcontainers, pre-completion validation            | [references/testing.md](references/testing.md)     |
-| Docker, GitHub Actions, Dependabot, release-please, GHCR                    | [references/cicd.md](references/cicd.md)           |
-| A repo that already has code/history                                        | [references/existing.md](references/existing.md)   |
-| Confirming a bootstrap is actually done, final report format                | [references/checklist.md](references/checklist.md) |
+| Task involves...                                                            | Read                                                   |
+| --------------------------------------------------------------------------- | ------------------------------------------------------ |
+| New repo, init order, commit sequence, monorepo layout                      | [references/bootstrap.md](references/bootstrap.md)     |
+| NestJS modules, TypeORM, Postgres, Kavo, Zod, DTOs, rate limiting           | [references/backend.md](references/backend.md)         |
+| React/Router, TypeScript config, Prettier, ESLint, commitlint, Node version | [references/frontend.md](references/frontend.md)       |
+| OpenAPI spec, generating frontend models/client from the backend            | [references/api-codegen.md](references/api-codegen.md) |
+| Writing/running tests, Testcontainers, pre-completion validation            | [references/testing.md](references/testing.md)         |
+| Docker, GitHub Actions, Dependabot, release-please, GHCR                    | [references/cicd.md](references/cicd.md)               |
+| A repo that already has code/history                                        | [references/existing.md](references/existing.md)       |
+| Confirming a bootstrap is actually done, final report format                | [references/checklist.md](references/checklist.md)     |
 
 ## Templates & Scripts
 
-- `templates/base/` — starter config files (package.json, tsconfig.json, .prettierrc, commitlint.config.ts, .gitignore, dependabot.yml). Copy and adapt instead of generating from scratch.
+- `templates/base/` — starter config files (package.json, tsconfig.json, .prettierrc, commitlint.config.ts, .gitignore, dependabot.yml, orval.config.ts). Copy and adapt instead of generating from scratch.
 - `scripts/validate.sh` — runs the full pre-completion validation suite (typecheck, lint, format:check, test, test:e2e, build). Run it instead of re-deriving the command list.
 
 ## Definition of Done

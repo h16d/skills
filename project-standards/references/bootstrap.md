@@ -13,21 +13,23 @@
 9. Configure PostgreSQL.
 10. Configure Kavo.
 11. Configure Zod.
-12. Create the initial API module (health check — see below).
-13. Create the React application.
-14. Configure React Router.
-15. Configure Vitest.
-16. Configure Testcontainers.
-17. Add unit tests.
-18. Add e2e tests.
-19. Add Docker configuration.
-20. Add GitHub Actions CI.
-21. Add Dependabot.
-22. Add release-please.
-23. Add GHCR publishing.
-24. Add GHCR image cleanup.
-25. Add documentation.
-26. Run the complete validation suite.
+12. Configure Swagger.
+13. Create the initial API module (health check — see below).
+14. Create the React application.
+15. Configure React Router.
+16. Configure Orval against the Swagger spec.
+17. Configure Vitest.
+18. Configure Testcontainers.
+19. Add unit tests.
+20. Add e2e tests.
+21. Add Docker configuration.
+22. Add GitHub Actions CI.
+23. Add Dependabot.
+24. Add release-please.
+25. Add GHCR publishing.
+26. Add GHCR image cleanup.
+27. Add documentation.
+28. Run the complete validation suite.
 
 Commit each logical stage separately — never one giant initial commit.
 
@@ -47,8 +49,10 @@ feat: add nestjs api
 feat: add typeorm and postgres
 feat: add kavo crud
 feat: add zod validation
+feat: add swagger
 feat: add react application
 feat: add react router
+feat: add orval codegen
 test: configure vitest
 test: add testcontainers
 test: add unit and e2e tests
