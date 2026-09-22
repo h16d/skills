@@ -10,23 +10,25 @@ Personal agent skills for Claude Code.
 
 ## Install
 
-Install all skills into `~/.claude/skills/`:
+Install all skills (auto-detects agent, e.g. `~/.claude/skills/`):
 
 ```bash
-npx github:h16d/skills
+npx skills add h16d/skills
 ```
 
 Install a specific skill only:
 
 ```bash
-npx github:h16d/skills project-standards
+npx skills add h16d/skills -s project-standards
 ```
 
-This copies each skill directory in — re-run any time to pull updates. To point installs somewhere else, set `SKILLS_HOME`:
+List available skills without installing:
 
 ```bash
-SKILLS_HOME=/path/to/skills npx github:h16d/skills
+npx skills add h16d/skills --list
 ```
+
+Useful flags: `-g` (global/user-level), `-a <agent>` (target agent, `*` for all), `-y` (skip prompts), `--copy` (copy instead of symlink). Re-run any time to pull updates, or `npx skills update`.
 
 ### Manual install
 
