@@ -10,7 +10,18 @@ import os from 'node:os';
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const targetRoot = process.env.SKILLS_HOME ?? join(os.homedir(), '.claude', 'skills');
 
-const requested = process.argv.slice(2);
+const args = process.argv.slice(2);
+
+if (args.includes('--help') || args.includes('-h')) {
+  console.log(`Usage: npx github:h16d/skills [skill-name ...]
+
+Installs skills into ${targetRoot} (override with SKILLS_HOME).
+
+Options:
+  -h, --help   Show this help
+  --list       List available skills without installing`);
+  process.exit(0);
+}
 
 const available = readdirSync(repoRoot).filter((name) => {
   const dir = join(repoRoot, name);
@@ -22,6 +33,12 @@ if (available.length === 0) {
   process.exit(1);
 }
 
+if (args.includes('--list')) {
+  console.log(available.join('\n'));
+  process.exit(0);
+}
+
+const requested = args.filter((a) => !a.startsWith('-'));
 const toInstall = requested.length > 0 ? requested : available;
 
 for (const name of toInstall) {

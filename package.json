@@ -1,8 +1,12 @@
 {
   "name": "skills",
+  "description": "Personal agent skills installer — npx github:h16d/skills [skill-name ...]",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@9",
+  "engines": {
+    "node": ">=20"
+  },
   "bin": {
     "skills": "bin/skills.js"
   },
