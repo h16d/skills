@@ -6,6 +6,7 @@ Personal agent skills for Claude Code.
 
 - [project-standards](project-standards/SKILL.md) — default standards for TypeScript/NestJS/React projects (stack choice, architecture, database, testing, Docker, CI/CD).
 - [pnpm-monorepo](pnpm-monorepo/SKILL.md) — structuring a pnpm workspace: when to extract packages, layout, dependency direction, shared dependency versions.
+- [recommended-tools](recommended-tools/SKILL.md) — recommended agent tooling: Superpowers, RTK token reducer, Kavo skills, and how to install them.
 
 ## Install
 
