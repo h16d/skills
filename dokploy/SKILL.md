@@ -22,7 +22,7 @@ Connect once at the panel, then pick repo/branch per service:
 1. **Settings → Git → GitHub → Create GitHub App** (unique name, e.g. `Dokploy-Github-App`) → **Install & Authorize**, selecting either all repos or an explicit list.
 2. In each Application/Compose service's **Source** tab: choose GitHub, the org or personal account, the repository, and the branch.
 3. **Auto Deploy** — on by default for GitHub; every push to the service's selected branch triggers a deployment. A push to any other branch silently does nothing ("Branch Not Match" when using manual webhooks) — the branch field is the contract.
-4. **Trigger type** — `push` (default) or `tag`. Tag-triggered services deploy when release tags land; combine with release-please when the compose file itself doesn't carry the version.
+4. **Trigger type** — `push` (default) or `tag`. Tag-triggered services deploy when release tags land; with release-please, order the workflow so the tag is created only **after** the image push (image-first pattern in the [release-please](../release-please/SKILL.md) skill) — otherwise the deploy races the build. Leave branch auto-deploy off on the prod service if tags are the trigger.
 5. **Watch Paths** — restrict auto-deploy to changes under specific paths (zero-config with GitHub). Use for monorepos so docs-only pushes don't redeploy.
 6. **Preview Deployments** — spin up ephemeral deployments for PRs (opened/synchronize/reopened). Enable **Require Collaborator Permissions** so only users with write access and above can trigger them.
 

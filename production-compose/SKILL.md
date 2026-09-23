@@ -63,20 +63,18 @@ With unique per-release tags, drop `pull_policy: always`. The default (pull if m
 
 Compose's tag must be byte-for-byte what the publish workflow pushes:
 
-- If the workflow tags `type=raw,value=${version}` from release-please's output, compose carries bare `1.4.0` — no `v` prefix.
+- If the workflow tags `type=raw,value=${version}` from its version output (detect step or action output), compose carries bare `1.4.0` — no `v` prefix.
 - A `v`-prefix mismatch fails at pull time with `manifest unknown`, which looks like a registry bug but is a naming mismatch.
 
 ## The Release Race
 
-Release PR merges → compose now references `N+1.0.0` → **but the image for that tag is only pushed by the workflow that runs on the same push to `main`.** Any auto-deploy triggered by that push (Dokploy's GitHub auto-deploy) can pull before the build finishes and fail.
+Release PR merges → compose now references `N+1.0.0` → **but the image for that tag is only pushed by the workflow that runs on the same push to `main`.** Anything that deploys from that push (Dokploy auto-deploy on the branch) can pull before the build finishes and fail.
 
-Pick one, deliberately:
+Fix the ordering once — create the tag only after the image push succeeds (detect → build → release-please, see the [release-please](../release-please/SKILL.md) skill) — then pick a trigger:
 
-1. **Deploy from CI after the push** — release workflow's build job finishes, then `POST` the Dokploy deploy webhook/API (see [dokploy](../dokploy/SKILL.md)). Correct ordering for free.
-2. **Retry** — let the first deploy fail and redeploy from the panel once GHCR has the tag. Acceptable, sloppy.
-3. **Tag-triggered deploys** — Dokploy service `triggerType: tag` fires when the release tag lands; still races the image build unless the tag is created _after_ the push (only true with custom tagging flows).
-
-Option 1 is the default recommendation.
+1. **Tag trigger (recommended)** — Dokploy service `triggerType: tag`; the tag now lands after the image exists, so the pull always succeeds. No API keys, no deploy step in CI. Leave branch auto-deploy off on the prod service so merges don't fire an early deploy.
+2. **Deploy from CI** — `POST` the Dokploy deploy API after the push (see [dokploy](../dokploy/SKILL.md)) when deploys shouldn't follow tags automatically (manual gate per release).
+3. **Retry** — let the first deploy fail and redeploy from the panel once GHCR has the tag. Acceptable, sloppy.
 
 ## GHCR Retention
 

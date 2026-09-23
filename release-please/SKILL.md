@@ -1,6 +1,6 @@
 ---
 name: release-please
-description: Use when setting up or troubleshooting release-please — manifest config, release PRs driven by Conventional Commits, extra-files version annotations, GHCR image tagging from a release, or stuck autorelease labels.
+description: Use when setting up or troubleshooting release-please — manifest config, release PRs driven by Conventional Commits, extra-files version annotations, GHCR image tagging and tag-after-image ordering, or stuck autorelease labels.
 ---
 
 # Release Please
@@ -45,17 +45,24 @@ Minimal single-package config:
 
 ## Workflow
 
-Run the official Action on every push to `main` (`googleapis/release-please-action@v5`, manifest mode, pointing at both files above). The action's `version` output is the source of truth for downstream jobs — read it, never re-derive it from git tags.
+Run the official Action on every push to `main` (`googleapis/release-please-action@v5`, manifest mode, pointing at both files above). When the action runs before downstream jobs, its `version` output is the source of truth for them — never re-derive a version from `git describe`. When you reorder for image-first tagging (below), downstream jobs read the manifest in a detect step instead.
 
 Merge discipline: squash-merge release PRs; the PR title/body are generated, don't rewrite them in ways that break release-please's parsing.
 
-## Shipping Only Docker Images (No GitHub Release)
+## Image-First Tagging (Tag After the Image Push)
 
-When the repo's only artifact is a GHCR image, GitHub Releases are noise — but tagging still has to happen, and release-please won't do it if you skip the release:
+If anything deploys when a tag appears on GitHub (e.g. Dokploy with `triggerType: tag`), the tag must land only **after** the image exists in the registry — tag-first lets the deploy pull a GHCR tag that isn't there yet. Keep native release-please (tag + GitHub release + label swap) but run it as the **last** job:
 
-1. Run the action with `skip-github-release: true`. This bumps manifest/changelog and manages the release PR, but also skips tagging **and** the `autorelease: pending` → `tagged` label swap.
-2. After checkout, read the version from `.release-please-manifest.json`; if `refs/tags/v<version>` doesn't exist on the remote, create and push the tag yourself.
-3. Flip any merged PRs labeled `autorelease: pending` to `autorelease: tagged` via `gh pr edit`. While a pending label lingers, release-please refuses to open the next release PR.
+1. **detect** — read `.release-please-manifest.json`, then `git ls-remote --exit-code --tags origin refs/tags/v<version>`: missing → release pending. Outputs `released`/`version`. No side effects.
+2. **build-and-push** — `if: needs.detect.outputs.released == 'true'`; builds and pushes the image.
+3. **release-please** — the action, gated so it runs after a successful image push when a release is pending, and on every other push anyway (it must still open/update the release PR):
+
+```yaml
+needs: [detect, build-and-push]
+if: ${{ !cancelled() && needs.detect.result == 'success' && (needs.detect.outputs.released == 'false' || needs.build-and-push.result == 'success') }}
+```
+
+If the image push fails, tagging is skipped — and the next push self-heals: detection still sees the missing tag, rebuilds, then tags. Don't reach for `skip-github-release` here: it forces you to hand-roll both tagging and the `autorelease: pending` → `tagged` label flip, and while a pending label lingers, release-please refuses to open the next release PR.
 
 ## Extra Files
 
@@ -84,11 +91,11 @@ See the [production-compose](../production-compose/SKILL.md) skill for the full 
 
 ## GHCR Tagging
 
-Tag images from the action's version output, not from `git describe`:
+Tag images from the version computed before the build — the detect step's manifest read in image-first order, or the action's `version` output when it runs first — never from `git describe`:
 
 ```yaml
 tags: |
-  type=raw,value=${{ steps.release.outputs.version }}
+  type=raw,value=${{ needs.detect.outputs.version }}
   type=raw,value=latest
 ```
 
