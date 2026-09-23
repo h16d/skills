@@ -2,7 +2,7 @@
 
 ## Docker
 
-Provide production Docker config when Docker deployment is required. Multi-stage builds; keep production images small; no dev dependencies in the production image; run as non-root when practical. Use explicit base image versions for production — never `latest`. Provide `Dockerfile` and `docker-compose.yml` when appropriate.
+Provide production Docker config when Docker deployment is required. Multi-stage builds; keep production images small; no dev dependencies in the production image; run as non-root when practical. Use explicit base image versions for production — never `latest`. Provide `Dockerfile` and `docker-compose.yml` when appropriate. For pinning production compose image tags and deploy ordering, see the [production-compose](../../production-compose/SKILL.md) skill.
 
 ## GitHub Actions
 
@@ -22,7 +22,7 @@ Configure for pnpm/npm dependencies and GitHub Actions in `.github/dependabot.ym
 
 ## Release Please
 
-Conventional Commits drive: release PRs, version bumps, changelogs, GitHub releases, Git tags. Use the current official release-please Action/config format. Don't manually maintain versions once release-please manages them. Keep config committed.
+Conventional Commits drive: release PRs, version bumps, changelogs, GitHub releases, Git tags. Use the current official release-please Action/config format. Don't manually maintain versions once release-please manages them. Keep config committed. Full setup, extra-files annotations, and troubleshooting: the [release-please](../../release-please/SKILL.md) skill.
 
 ## GitHub Container Registry
 
@@ -30,7 +30,7 @@ Publish images via GitHub Actions to GHCR (unless another registry is explicitly
 
 ### GHCR Retention
 
-Keep only the 5 most recent image versions, cleaned up automatically via GitHub Actions + GitHub's package APIs. The process must: identify versions, preserve the 5 newest, delete older ones, avoid deleting the currently deployed version when possible, and fail safely if package metadata can't be determined. Never delete tags blindly.
+Keep only the 5 most recent image versions, cleaned up automatically via GitHub Actions + GitHub's package APIs. The process must: identify versions, preserve the 5 newest, delete older ones, avoid deleting the currently deployed version when possible, and fail safely if package metadata can't be determined. Never delete tags blindly. The currently deployed tag is whatever the production compose file pins — see [production-compose](../../production-compose/SKILL.md).
 
 ## Dependabot/Release Safety
 

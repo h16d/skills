@@ -6,6 +6,9 @@ Personal agent skills for Claude Code.
 
 - [project-standards](project-standards/SKILL.md) — default standards for TypeScript/NestJS/React projects (stack choice, architecture, database, testing, Docker, CI/CD).
 - [pnpm-monorepo](pnpm-monorepo/SKILL.md) — structuring a pnpm workspace: when to extract packages, layout, dependency direction, shared dependency versions.
+- [release-please](release-please/SKILL.md) — release automation: manifest config, release PRs from Conventional Commits, extra-files version annotations, GHCR tagging, stuck-label troubleshooting.
+- [dokploy](dokploy/SKILL.md) — deploying with Dokploy: GitHub integration, auto-deploy, compose services, watch paths, PR previews, secrets, deploy-from-CI webhook.
+- [production-compose](production-compose/SKILL.md) — versioning the production compose file: release-please-managed image tags, pull policy, secrets separation, release/deploy ordering, GHCR retention.
 - [recommended-tools](recommended-tools/SKILL.md) — recommended agent tooling: Superpowers, RTK token reducer, Kavo skills, and how to install them.
 
 ## Install
