@@ -49,7 +49,7 @@ Attach domains per service in the panel; SSL (Let's Encrypt) is provisioned auto
 When a deploy must wait on something (image build finished, migrations ran), skip auto-deploy and hit the deploy webhook from the pipeline:
 
 ```bash
-curl -X POST "https://<dokploy-domain>/api/deploy/compose" \
+curl -X POST "https://<dokploy-domain>/api/compose.deploy" \
   -H "x-api-key: $DOKPLOY_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"composeId": "<id>"}'
